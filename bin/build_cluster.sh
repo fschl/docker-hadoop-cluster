@@ -55,9 +55,9 @@ launch_cluster() {
   if ! docker network inspect hadoop-network > /dev/null ; then
     docker network create --driver bridge hadoop-network
   fi
-  docker run -d -p 50070:50070 -p 8088:8088 --net hadoop-network --name nn -h nn lewuathe/hadoop-master
+  docker run -d -p 50070:50070 -p 8088:8088 -v /home/mr/projects/java/hadoop/hdfsio/nn/input:/usr/local/hadoop/hdfsio/input --net hadoop-network --name nn -h nn lewuathe/hadoop-master
   for i in `seq 1 $DATANODE_NUM`; do
-    docker run -d --name dn${i} -h dn${i} --net hadoop-network lewuathe/hadoop-slave
+    docker run -d --name dn${i} -h dn${i} -v /home/mr/projects/java/hadoop/hdfsio/dn${i}/input:/usr/local/hadoop/input --net hadoop-network lewuathe/hadoop-slave
   done
 }
 

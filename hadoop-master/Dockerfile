@@ -26,5 +26,7 @@ RUN sed s/RESOURCEMANAGER/nn/ $HADOOP_PREFIX/etc/hadoop/yarn-site.xml.template >
 
 RUN mkdir /var/log/hadoop
 
+WORKDIR /usr/local/hadoop/
+
 CMD ["/etc/bootstrap.sh", "-d"]
 

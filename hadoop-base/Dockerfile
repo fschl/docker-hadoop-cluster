@@ -21,7 +21,7 @@ USER root
 # install dev tools
 RUN yum clean all; \
     rpm --rebuilddb; \
-        yum install -y curl which tar sudo openssh-server openssh-clients rsync
+        yum install -y curl which tar sudo openssh-server openssh-clients rsync vim
         # update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
         RUN yum update -y libselinux
 
@@ -87,6 +87,10 @@ RUN ls -la /usr/local/hadoop/etc/hadoop/*-env.sh
 RUN sed  -i "/^[^#]*UsePAM/ s/.*/#&/"  /etc/ssh/sshd_config
 RUN echo "UsePAM no" >> /etc/ssh/sshd_config
 RUN echo "Port 2122" >> /etc/ssh/sshd_config
+
+RUN curl -s https://raw.githubusercontent.com/fschl/dotfiles/master/.aliases -o /root/.aliases
+RUN curl -s https://raw.githubusercontent.com/fschl/dotfiles/master/.bashrc -o /root/.bashrc
+RUN source /root/.bashrc
 
 RUN service sshd start
 
